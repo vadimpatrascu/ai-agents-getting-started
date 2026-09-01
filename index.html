@@ -40,7 +40,7 @@
     .chip:hover{border-color:#bdb4fe;background:#f8f6ff}
     .globe-wrap{position:relative;height:420px;display:flex;align-items:center;justify-content:center}
     canvas#globe{width:420px;height:420px;display:block}
-    .mic{position:absolute;width:72px;height:72px;border-radius:50%;background:rgba(122,90,248,.18);display:flex;align-items:center;justify-content:center;color:#6d4dff;pointer-events:none}
+    .mic{position:absolute;width:86px;height:86px;border-radius:50%;background:rgba(237,233,254,.92);display:flex;align-items:center;justify-content:center;color:#7c5cfc;pointer-events:none;box-shadow:0 8px 30px #7a5af833}
     .talk{position:absolute;bottom:78px;border:0;background:#6d4dff;color:#fff;border-radius:999px;padding:11px 22px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 10px 30px #7a5af866;z-index:2}
     .talk.live{background:linear-gradient(90deg,#6d4dff,#8b5cf6);padding:11px 18px;font-size:12px;letter-spacing:.02em;text-transform:uppercase;max-width:92%}
     .glow{position:absolute;width:280px;height:120px;bottom:40px;background:radial-gradient(ellipse,rgba(139,92,246,.35),transparent 70%);pointer-events:none}
@@ -197,7 +197,7 @@
     <div class="globe-wrap">
       <div class="glow"></div>
       <canvas id="globe" width="840" height="840"></canvas>
-      <div class="mic">🎙️</div>
+      <div class="mic"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="11" y="4" width="10" height="16" rx="5"/><path d="M8 15a8 8 0 0016 0M16 23v5M11 28h10"/></svg></div>
       <button class="talk" id="talk" type="button">Tap to talk</button>
     </div>
   </section>
@@ -496,11 +496,12 @@ function globe(){
       return {x:x1,y:y2,z:z2};
     }).sort((p,q)=>p.z-q.z);
     for(const p of proj){
-      const k=(p.z+1.2)/2.2;
-      const x=cx+p.x*R, y=cy+p.y*R;
-      const s=1.6+k*2.8;
+      const persp=2.4/(2.4-p.z);
+      const k=(p.z+1)/2;
+      const x=cx+p.x*R*persp, y=cy+p.y*R*persp;
+      const s=(1.2+k*3.4)*persp;
       ctx.beginPath();
-      ctx.fillStyle=`rgba(122,90,248,${0.18+k*0.75})`;
+      ctx.fillStyle=`rgba(124,92,252,${0.12+k*0.82})`;
       ctx.arc(x,y,s,0,Math.PI*2);
       ctx.fill();
     }
@@ -538,9 +539,16 @@ document.querySelectorAll("[data-open]").forEach(b=>b.onclick=openM);
 document.querySelector("[data-close]").onclick=closeM;
 document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeM();};
 document.querySelector("[data-go]").onclick=()=>document.getElementById("mkt").scrollIntoView({behavior:"smooth"});
+const COPY={
+  en:{sub:"Just describe your business. We'll build the right agents for you.",prefer:"Prefer to build it yourself?",try:"Try asking:",mk:"READY-MADE AGENTS",mh:"Pick your industry. Go live in minutes.",mp:"No scripting. No setup calls. Just pick the one that fits, tweak the name, and start taking calls.",mb:"Browse all marketplace templates →",ey:"AI-POWERED PLATFORM",gs:"Get Started →",num:"Numbers don't lie",nums:"80% of leads are lost in the first 5 minutes. Respond to leads instantly, beat your competition."},
+  ro:{sub:"Descrie business-ul. Îți construim agenții potriviți.",prefer:"Preferi să-l construiești tu?",try:"Încearcă să ceri:",mk:"AGENȚI GATA",mh:"Alege industria. Live în minute.",mp:"Fără scripting. Fără setup calls. Alegi, ajustezi numele și preiei apeluri.",mb:"Vezi toate template-urile →",ey:"PLATFORMĂ CU AI",gs:"Începe →",num:"Cifrele nu mint",nums:"80% din lead-uri se pierd în primele 5 minute. Răspunde instant, bate concurența."},
+  ru:{sub:"Опишите бизнес. Мы соберём нужных агентов.",prefer:"Хотите собрать сами?",try:"Попробуйте спросить:",mk:"ГОТОВЫЕ АГЕНТЫ",mh:"Выберите нишу. В эфире за минуты.",mp:"Без скриптов и созвонов. Выберите шаблон, имя — и звонки.",mb:"Все шаблоны маркетплейса →",ey:"ПЛАТФОРМА С ИИ",gs:"Начать →",num:"Цифры не врут",nums:"80% лидов теряются в первые 5 минут. Отвечайте сразу."}
+};
 document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{
   lang=b.dataset.lang;
   document.querySelectorAll("[data-lang]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  const c=COPY[lang];
+  document.querySelectorAll("[data-i]").forEach(el=>{ if(c[el.dataset.i]) el.textContent=c[el.dataset.i]; });
   chips(); renderStats(); renderTabs();
 });
 setInterval(()=>{si=(si+1)%3;renderStats();},5000);
