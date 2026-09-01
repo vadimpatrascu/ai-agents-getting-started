@@ -1,581 +1,551 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Getting Started — Voice AI / Conversation AI</title>
+  <title>AI Agents — PATRASCU AI AGENCY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --purple-50: #f4f3ff; --purple-100: #ebe9fe; --purple-200: #d9d6fe;
-      --purple-300: #bdb4fe; --purple-600: #7a5af8; --purple-700: #6938ef; --purple-900: #4a1fb8;
-      --gray-warm-50: #fafafa; --gray-warm-100: #f5f5f4; --gray-warm-200: #e5e7eb;
-      --gray-warm-300: #d0d5dd; --gray-warm-400: #98a2b3; --gray-warm-500: #667085;
-      --gray-warm-600: #475467; --gray-warm-900: #101828;
-      --base-white: #fff; --base-black: #000;
-      --success-50: #ecfdf3; --success-600: #039855; --success-700: #027a48;
-      --warning-50: #fffaeb; --warning-200: #fedf89; --warning-400: #fdb022;
-      --warning-600: #dc6803; --warning-700: #b54708;
-      --blue-50: #eff8ff; --blue-200: #b2ddff; --blue-600: #1570ef;
-      --pink-50: #fdf2fa; --pink-200: #fcceee; --pink-600: #dd2590;
-      --gray-100: #f2f4f7; --gray-600: #475467;
-      --primary-600: #155eef; --primary-700: #004eeb;
-      --landing-surface: #fff; --landing-surface-soft: #fafafa;
-      --landing-surface-accent: #f4f3ff; --landing-border-soft: #e5e7eb;
-      --landing-border-muted: #d0d5dd; --landing-border-strong: #bdb4fe;
-      --landing-text-strong: #101828; --landing-text-body: #475467;
-      --landing-text-muted: #667085; --landing-text-subtle: #98a2b3;
-      --landing-text-inactive: #d0d5dd; --landing-accent: #7a5af8;
-      --landing-accent-strong: #6938ef; --landing-info: #1570ef;
-      --landing-info-soft: #eff8ff; --landing-info-border: #b2ddff;
-      --landing-success: #039855; --landing-success-strong: #027a48;
-      --landing-success-soft: #ecfdf3; --landing-warning: #dc6803;
-      --landing-warning-strong: #b54708; --landing-warning-soft: #fffaeb;
-      --landing-pink-soft: #fdf2fa; --landing-pink-border: #fcceee;
-      --landing-neutral-soft: #f2f4f7; --landing-neutral-border: #f5f5f4;
-      --landing-neutral-text: #475467;
+      --ink:#101828; --muted:#475467; --subtle:#667085; --line:#e5e7eb;
+      --bg:#fff; --soft:#f8f9fb; --purple:#7a5af8; --purple-600:#6938ef;
+      --blue:#155eef; --blue-700:#004eeb; --ok:#039855;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { background: #fff; color: #101828; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
-    button { font-family: inherit; }
-    .topbar {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 48px 0; max-width: 1280px; margin: 0 auto;
-    }
-    .brand { font-size: 13px; font-weight: 700; letter-spacing: -.01em; color: #101828; }
-    .brand span { color: #7a5af8; }
-    .lang { display: flex; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; background: #fff; }
-    .lang button { border: 0; background: transparent; padding: 8px 12px; font: 600 13px Inter, sans-serif; color: #667085; cursor: pointer; }
-    .lang button[aria-pressed="true"] { color: #7a5af8; background: #f4f3ff; }
-    .ai-value-landing { width: 100%; padding: 0 0 128px; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    @keyframes pulse-dot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.8); } }
-    @keyframes toast-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes spin-orbit { to { transform: rotate(360deg); } }
-    .hero { background: #fff; padding: 48px 48px 72px; overflow: hidden; }
-    .hero-layout { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 56px; max-width: 1200px; margin: 0 auto; }
-    .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; background: #ebe9fe; color: #6938ef; letter-spacing: .05em; text-transform: uppercase; border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 600; margin-bottom: 20px; }
-    .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: #7a5af8; animation: pulse-dot 2s ease-in-out infinite; }
-    .hero-heading { letter-spacing: -.03em; color: #101828; margin: 0 0 20px; font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; line-height: 1.1; }
-    .hero-heading em { color: #7a5af8; font-style: italic; }
-    .hero-sub { color: #667085; max-width: 440px; margin: 0 0 28px; font-size: 15px; line-height: 1.65; }
-    .hero-sub strong { color: #101828; font-weight: 600; }
-    .cta { min-width: 200px; height: 44px; padding: 10px 18px; border-radius: 8px; border: 1px solid #7a5af8; background: #7a5af8; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 1px 2px #1018280d; }
-    .cta:hover { background: #6938ef; border-color: #6938ef; }
-    .hero-orbital-outer { display: flex; justify-content: center; min-height: 460px; }
-    .hero-orbital { width: min(460px, 100%); height: 460px; position: relative; }
-    .orb-ring { position: absolute; inset: 18%; border: 1px dashed #d9d6fe; border-radius: 50%; }
-    .orb-ring.outer { inset: 4%; border-color: #ebe9fe; }
-    .orb-core { position: absolute; inset: 34%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c4b5fd, #7a5af8 55%, #4c1d95); box-shadow: 0 20px 50px #7a5af866; display: flex; align-items: center; justify-content: center; color: #fff; }
-    .orb-core svg { width: 48px; height: 48px; }
-    .orb-icon { position: absolute; width: 44px; height: 44px; border-radius: 12px; background: #fff; border: 1px solid #e5e7eb; box-shadow: 0 8px 20px #10182814; display: flex; align-items: center; justify-content: center; color: #7a5af8; }
-    .orb-icon.a { top: 8%; left: 42%; } .orb-icon.b { top: 42%; right: 4%; } .orb-icon.c { bottom: 18%; left: 10%; } .orb-icon.d { top: 28%; left: 6%; }
-    .hero-toast { position: absolute; z-index: 3; background: #fff; border: 1px solid #e5e7eb; box-shadow: 0 4px 16px #00000014; border-radius: 12px; display: flex; align-items: center; gap: 10px; padding: 10px 14px; animation: toast-in .5s cubic-bezier(.4,0,.2,1) both; }
-    .hero-toast.left { bottom: 148px; left: 0; animation-delay: .8s; }
-    .hero-toast.right { bottom: 124px; right: 0; animation-delay: 1.6s; }
-    .toast-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .toast-dot.amber { background: #fdb022; } .toast-dot.purple { background: #7a5af8; }
-    .toast-title { font-size: 13px; font-weight: 600; line-height: 1.2; }
-    .toast-time { color: #667085; margin-top: 2px; font-size: 11px; }
-    .hero-stats-bar { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border: 1px solid #e5e7eb; box-shadow: 0 2px 12px #0000000f; border-radius: 14px; display: flex; align-items: center; padding: 10px 16px; }
-    .stat-item { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .stat-ico { width: 32px; height: 32px; border-radius: 8px; background: #fafafa; display: flex; align-items: center; justify-content: center; color: #7a5af8; flex-shrink: 0; }
-    .stat-val { font-size: 15px; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
-    .stat-lab { color: #667085; margin-top: 2px; font-size: 11px; }
-    .stat-div { width: 1px; height: 28px; background: #e5e7eb; margin: 0 4px; }
-    .stats-section { max-width: 1200px; margin: 0 auto 32px; padding: 40px 48px 0; }
-    .compare-header-text { text-align: center; margin-bottom: 28px; }
-    .compare-table-title { letter-spacing: -.03em; margin: 0 0 10px; font-size: 28px; font-weight: 700; }
-    .compare-table-sub { color: #475467; max-width: 560px; margin: 0 auto; font-size: 15px; line-height: 1.6; }
-    .compare-table-wrap { border: 1px solid #e5e7eb; background: #fff; border-radius: 16px; overflow-x: auto; }
-    table.compare { border-collapse: collapse; table-layout: fixed; width: 100%; min-width: 600px; }
-    table.compare thead tr { background: #fafafa; border-bottom: 1px solid #e5e7eb; }
-    table.compare th, table.compare td { vertical-align: middle; padding: 14px 16px; }
-    table.compare tbody tr { border-bottom: 1px solid #e5e7eb; }
-    table.compare tbody tr:last-child { border-bottom: none; }
-    .col-label { text-align: left; width: 32%; }
-    .col-c { text-align: center; width: 16%; }
-    .col-rev { text-align: center; width: 20%; background: #f4f3ff; border-left: 2px solid #bdb4fe; border-right: 2px solid #bdb4fe; }
-    .col-rev.top { border-top: 2px solid #bdb4fe; border-top-left-radius: 12px; border-top-right-radius: 12px; }
-    .col-rev.bot { border-bottom: 2px solid #bdb4fe; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
-    .th-cell { color: #101828; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
-    .th-cell.row { flex-direction: row; }
-    .badge { width: 24px; height: 24px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
-    .badge.cyan { background: #eff8ff; border: 1px solid #b2ddff; }
-    .badge.purple { background: #f4f3ff; border: 1px solid #d9d6fe; }
-    .badge.yellow { background: #fffaeb; border: 1px solid #fedf89; }
-    .badge.pink { background: #fdf2fa; border: 1px solid #fcceee; }
-    .metric { color: #475467; text-align: left; font-size: 14px; }
-    .cell { text-align: center; font-size: 14px; font-weight: 600; }
-    .cell.ai { color: #7a5af8; }
-    .est { color: #475467; text-align: center; font-size: 13px; }
-    .impact { white-space: nowrap; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font-size: 12px; font-weight: 500; }
-    .impact.ok { background: #ecfdf3; color: #027a48; }
-    .impact.warn { background: #fffaeb; color: #b54708; }
-    .impact.neu { background: #f2f4f7; color: #475467; }
-    .feature-sections { background: #fafafa; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; margin: 64px 0 48px; position: relative; overflow: hidden; }
-    .feature-sections::before { content: ""; pointer-events: none; position: absolute; inset: 0; background: radial-gradient(ellipse at 15% 40%, #7a5af80d, transparent 55%), radial-gradient(ellipse at 85% 20%, #7a5af80a, transparent 50%); }
-    .feature-row { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; max-width: 1200px; margin: 0 auto; padding: 80px 48px; }
-    .feature-row.reverse .feature-content { order: 2; } .feature-row.reverse .feature-demo { order: 1; }
-    .feature-divider { border: 0; border-top: 1px solid #e5e7eb; margin: 0; position: relative; z-index: 1; }
-    .feature-eyebrow { text-transform: uppercase; letter-spacing: .06em; color: #667085; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 11px; font-weight: 600; }
-    .feature-heading { letter-spacing: -.03em; margin: 0 0 16px; font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.15; }
-    .feature-heading em { color: #667085; font-style: italic; }
-    .feature-desc { color: #667085; max-width: 440px; margin: 0 0 28px; font-size: 15px; line-height: 1.7; }
-    .feature-cta { border: none; border-bottom: 1px solid #7a5af84d; color: #7a5af8; background: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 0 0 2px; font-size: 14px; font-weight: 500; }
-    .feature-cta:hover { border-color: #7a5af8; }
-    .demo-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; box-shadow: 0 12px 40px #00000014; overflow: hidden; }
-    .vtp { background: linear-gradient(160deg, #eef0f4, #cdd2dc); border-radius: 48px; width: 346px; margin: 0 auto; padding: 11px; box-shadow: 0 50px 90px -30px #46546773, inset 0 0 0 1px #ffffffb3; }
-    .vtp-screen { background: #f4f5f7; border-radius: 38px; height: 560px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-    .vtp-island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 108px; height: 30px; background: #0a0d12; border-radius: 18px; z-index: 2; }
-    .vtp-status { height: 44px; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 26px 5px; font-size: 14px; font-weight: 600; }
-    .vtp-head { border-bottom: 1px solid #eaecf0; display: flex; align-items: center; gap: 12px; padding: 10px 24px 8px; }
-    .vtp-av { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(140deg, #528bff, #004eeb); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    .vtp-biz { font-size: 16px; font-weight: 600; }
-    .vtp-st { font-size: 12.5px; color: #039855; display: flex; align-items: center; gap: 6px; margin-top: 1px; }
-    .vtp-st i { width: 6px; height: 6px; border-radius: 50%; background: #039855; display: inline-block; }
-    .vtp-orb { flex: 1; display: flex; align-items: center; justify-content: center; }
-    .orb-btn { width: 128px; height: 128px; border-radius: 50%; border: 1px solid #155eef2e; background: #ffffffeb; color: #004eeb; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 32px -10px #155eef66; animation: pulse-dot 3.6s ease-in-out infinite; }
-    .vtp-foot { border-top: 1px solid #eaecf0; background: #fbfbfc; display: flex; justify-content: center; padding: 10px 24px 18px; }
-    .vtp-call { background: #155eef; color: #fff; border: 0; border-radius: 999px; padding: 12px 26px; font-size: 14px; font-weight: 600; cursor: pointer; }
-    .vtp-home { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 128px; height: 5px; background: #d0d5dd; border-radius: 999px; }
-    .chat { padding: 22px 24px; }
-    .chat-title { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; color: #101828; font-weight: 600; }
-    .chat-title:before, .chat-title:after { content: ""; flex: 1; height: 1px; background: #d0d5dd; }
-    .bubble-user { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin-bottom: 18px; }
-    .bubble-user .who { font-size: 13px; font-weight: 600; }
-    .bubble-user .msg { background: #f9fafb; border: 1px solid #d0d5dd; border-radius: 14px; max-width: 86%; padding: 12px 16px; color: #475467; line-height: 1.6; font-size: 14px; }
-    .bubble-ai { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 18px; }
-    .ai-lab { color: #7a5af8; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-    .bubble-ai .msg { color: #101828; font-size: 15px; line-height: 1.7; }
-    .review { padding: 20px; }
-    .review-h { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .review-ico { width: 36px; height: 36px; border-radius: 12px; background: #ecfdf3; color: #039855; display: flex; align-items: center; justify-content: center; }
-    .stars { color: #f79009; letter-spacing: 1px; font-size: 14px; }
-    .rev-who { display: flex; align-items: center; gap: 12px; margin: 8px 0 12px; }
-    .av { width: 44px; height: 44px; border-radius: 50%; background: #e9eaec; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: #475467; }
-    .rev-text { color: #475467; line-height: 1.65; margin-bottom: 14px; }
-    .reply { background: #f5f3ff; border-radius: 14px; padding: 14px 16px; }
-    .reply-lab { color: #6d28d9; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .trust { background: #fff; border: 1px solid #f5f5f4; text-align: center; max-width: 1104px; box-shadow: 0 2px 12px #0000000a; border-radius: 20px; margin: 0 auto 44px; padding: 40px 44px; }
-    .trust-eyebrow { text-transform: uppercase; letter-spacing: .06em; color: #7a5af8; margin: 0 0 28px; font-size: 11px; font-weight: 600; }
-    .trust-metrics { display: flex; justify-content: center; align-items: center; }
-    .trust-metric { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 24px; }
-    .trust-div { width: 1px; height: 40px; background: #e5e7eb; flex-shrink: 0; }
-    .trust-value { letter-spacing: -.03em; margin-bottom: 6px; font-size: 28px; font-weight: 800; }
-    .trust-label { color: #667085; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; font-weight: 500; }
-    .ship { max-width: 1200px; margin: 24px auto 56px; padding: 0 48px; }
-    .ship-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: stretch; }
-    .ship-eyebrow { color: #98a2b3; max-width: 36ch; margin: 0 0 16px; font-size: 13px; font-weight: 600; }
-    .ship-heading { letter-spacing: -.03em; margin: 0 0 32px; font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1.1; }
-    .ship-tabs { border-top: 1px solid #f5f5f4; }
-    .ship-tab { text-align: left; cursor: pointer; background: none; border: none; width: 100%; padding: 18px 0; position: relative; display: block; }
-    .ship-tab-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-    .ship-tab-title { color: #d0d5dd; font-size: 15px; font-weight: 600; }
-    .ship-tab.active .ship-tab-title { color: #101828; }
-    .ship-tab-hint { color: #98a2b3; font-size: 12px; white-space: nowrap; }
-    .ship-tab-desc { color: #667085; max-width: 420px; margin: 10px 0 0; font-size: 13.5px; line-height: 1.65; display: none; }
-    .ship-tab.active .ship-tab-desc { display: block; }
-    .ship-tab-link { display: none; margin-top: 10px; color: #7a5af8; background: none; border: 0; border-bottom: 1px solid #7a5af84d; padding: 0 0 2px; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .ship-tab.active .ship-tab-link { display: inline-flex; }
-    .ship-tab-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: #f5f5f4; }
-    .ship-tab-progress { height: 1px; width: 0; background: #101828; display: block; }
-    .ship-tab.active .ship-tab-progress { animation: fill 5s linear forwards; }
-    @keyframes fill { to { width: 100%; } }
-    .ship-card { border: 1px solid #f5f5f4; background: #fff; border-radius: 20px; box-shadow: 0 12px 40px #00000014; overflow: hidden; }
-    .ship-card-h { border-bottom: 1px solid #f5f5f4; padding: 20px; display: flex; gap: 12px; align-items: flex-start; }
-    .ship-ico { width: 40px; height: 40px; border-radius: 10px; border: 1px solid #d9d6fe; background: #f4f3ff; color: #6938ef; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .ship-name { font-size: 17px; font-weight: 600; }
-    .ship-status { color: #667085; font-size: 13px; display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-    .ship-status b { width: 6px; height: 6px; border-radius: 50%; background: #6938ef; display: inline-block; }
-    .pill { margin-left: auto; border: 1px solid #d9d6fe; background: #f4f3ff; color: #6938ef; border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
-    .ship-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid #f5f5f4; }
-    .ship-stat { text-align: center; padding: 14px 10px; border-right: 1px solid #f5f5f4; }
-    .ship-stat:last-child { border-right: 0; }
-    .ship-stat strong { display: block; font-size: 18px; letter-spacing: -.02em; }
-    .ship-stat span { color: #667085; font-size: 11px; margin-top: 4px; display: block; }
-    .ship-feats { list-style: none; padding: 14px 20px; border-bottom: 1px solid #f5f5f4; display: flex; flex-direction: column; gap: 10px; }
-    .ship-feats li { display: flex; gap: 8px; color: #475467; font-size: 13.5px; line-height: 1.5; }
-    .ship-feats li::before { content: "✓"; color: #039855; font-weight: 700; }
-    .ship-card-f { padding: 14px 20px; }
-    .deploy { width: 100%; height: 44px; border-radius: 8px; border: 1px solid #6938ef; background: #6938ef; color: #fff; font-weight: 600; cursor: pointer; }
-    .modal { position: fixed; inset: 0; background: #10182880; display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
-    .modal.open { display: flex; }
-    .modal-card { background: #fff; border-radius: 16px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 24px 60px #00000033; }
-    .modal-card h3 { font-size: 20px; margin-bottom: 8px; }
-    .modal-card p { color: #667085; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
-    .opt { display: block; width: 100%; text-align: left; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 16px; background: #fff; margin-bottom: 10px; cursor: pointer; }
-    .opt:hover { border-color: #7a5af8; background: #f4f3ff; }
-    .opt strong { display: block; font-size: 14px; margin-bottom: 2px; }
-    .opt span { color: #667085; font-size: 13px; }
-    .opt.primary { background: #7a5af8; border-color: #7a5af8; color: #fff; }
-    .opt.primary span { color: #ebe9fe; }
-    .x { float: right; border: 0; background: none; font-size: 20px; cursor: pointer; color: #667085; }
-    @media (max-width: 1024px) {
-      .feature-row { grid-template-columns: 1fr; gap: 40px; padding: 60px 32px; }
-      .feature-row.reverse .feature-content, .feature-row.reverse .feature-demo { order: unset; }
-      .ship-grid { grid-template-columns: 1fr; gap: 32px; }
-    }
-    @media (max-width: 860px) {
-      .hero-layout { grid-template-columns: 1fr; }
-      .hero-orbital-outer { display: none; }
-      .topbar, .hero, .stats-section, .ship { padding-left: 20px; padding-right: 20px; }
-    }
-    @media (max-width: 640px) {
-      .hero-heading { font-size: 26px; }
-      .trust-metrics { flex-wrap: wrap; gap: 16px; }
-      .trust-div { display: none; }
-      .trust-metric { flex: 0 0 calc(50% - 8px); padding: 0; }
-      .vtp { width: min(346px, 100%); }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:#fff;color:var(--ink);font-family:Inter,system-ui,sans-serif}
+    button,a{font-family:inherit}
+    .topbar{max-width:1200px;margin:0 auto;padding:18px 32px 0;display:flex;justify-content:space-between;align-items:center}
+    .brand{font-size:12px;font-weight:800;letter-spacing:.04em}
+    .brand span{color:var(--purple)}
+    .lang{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .lang button{border:0;background:#fff;padding:7px 11px;font:600 12px Inter,sans-serif;color:#667085;cursor:pointer}
+    .lang button[aria-pressed="true"]{background:#f4f3ff;color:var(--purple)}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+    /* SuperAgents hero */
+    .sa{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:48px 32px 28px;max-width:1180px;margin:0 auto}
+    .sa h1{font-size:clamp(34px,4.4vw,52px);font-weight:500;letter-spacing:-.035em;line-height:1.12;color:#1d2939}
+    .sa h1 .ph{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400}
+    .sa h1 .caret{display:inline-block;width:2px;height:.85em;background:#1d2939;margin:0 2px -4px;animation:blink 1s steps(1) infinite;vertical-align:baseline}
+    .ready{display:block;color:#8b6cff;font-weight:600;letter-spacing:-.03em}
+    .sa .sub{margin:18px 0 26px;color:#475467;font-size:16px;line-height:1.55;max-width:420px}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+    .btn-blue{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:600;font-size:14px;cursor:pointer}
+    .btn-blue:hover{background:var(--blue-700)}
+    .btn-ghost{background:#fff;color:#344054;border:1px solid #d0d5dd;border-radius:10px;padding:12px 18px;font-weight:600;font-size:14px;cursor:pointer}
+    .hint{color:#667085;font-size:13px;margin:8px 0 22px}
+    .try{color:#667085;font-size:13px;margin-bottom:10px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;max-width:460px}
+    .chip{border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:8px 12px;font-size:13px;color:#344054;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+    .chip:hover{border-color:#bdb4fe;background:#f8f6ff}
+    .globe-wrap{position:relative;height:420px;display:flex;align-items:center;justify-content:center}
+    canvas#globe{width:420px;height:420px;display:block}
+    .mic{position:absolute;width:72px;height:72px;border-radius:50%;background:rgba(122,90,248,.18);display:flex;align-items:center;justify-content:center;color:#6d4dff;pointer-events:none}
+    .talk{position:absolute;bottom:78px;border:0;background:#6d4dff;color:#fff;border-radius:999px;padding:11px 22px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 10px 30px #7a5af866;z-index:2}
+    .talk.live{background:linear-gradient(90deg,#6d4dff,#8b5cf6);padding:11px 18px;font-size:12px;letter-spacing:.02em;text-transform:uppercase;max-width:92%}
+    .glow{position:absolute;width:280px;height:120px;bottom:40px;background:radial-gradient(ellipse,rgba(139,92,246,.35),transparent 70%);pointer-events:none}
+    @keyframes blink{50%{opacity:0}}
+    /* stats */
+    .stats{background:#fafafa;border-top:1px solid #f2f4f7;padding:42px 32px 28px}
+    .stats-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#98a2b3;margin-bottom:18px}
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1120px;margin:0 auto}
+    .stats-grid strong{display:block;font-size:42px;letter-spacing:-.04em;line-height:1.1;margin-bottom:8px}
+    .stats-grid p{color:#475467;font-size:14px;line-height:1.5;max-width:280px}
+    .dots{display:flex;gap:6px;max-width:1120px;margin:22px auto 0}
+    .dots b{width:7px;height:7px;border-radius:50%;background:#d0d5dd;display:block;cursor:pointer}
+    .dots b.on{background:#344054}
+    /* marketplace */
+    .mkt{text-align:center;padding:56px 24px 40px}
+    .mkt-k{font-size:11px;font-weight:700;letter-spacing:.1em;color:#7a5af8;margin-bottom:12px}
+    .mkt h2{font-size:32px;letter-spacing:-.03em;margin-bottom:8px}
+    .mkt p{color:#667085;max-width:520px;margin:0 auto 22px;line-height:1.55}
+    .faces{display:flex;justify-content:center;margin-bottom:14px}
+    .faces i{width:36px;height:36px;border-radius:50%;border:2px solid #fff;margin-left:-8px;display:inline-block}
+    .btn-purp{background:#7a5af8;color:#fff;border:0;border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer}
+    /* value landing */
+    .hero2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:72px 32px 40px;max-width:1180px;margin:0 auto}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#f4f3ff;color:#6938ef;border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:16px}
+    .dot{width:6px;height:6px;border-radius:50%;background:#7a5af8}
+    .hero2 h2{font-size:clamp(28px,3.4vw,44px);letter-spacing:-.035em;line-height:1.12;margin-bottom:16px}
+    .hero2 h2 em{color:#7a5af8;font-style:italic}
+    .hero2 .sub{color:#667085;max-width:460px;line-height:1.65;margin-bottom:24px}
+    .hero2 .sub b{color:#101828}
+    .cta{background:#7a5af8;color:#fff;border:0;border-radius:10px;padding:12px 22px;font-weight:600;cursor:pointer}
+    .orb{position:relative;height:380px}
+    .orb-core{position:absolute;left:50%;top:42%;width:88px;height:88px;margin:-44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c4b5fd,#7a5af8 55%,#4c1d95);box-shadow:0 0 0 18px #7a5af814,0 20px 50px #7a5af855;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px}
+    .ring{position:absolute;left:50%;top:42%;border:1px dashed #ddd6fe;border-radius:50%;transform:translate(-50%,-50%)}
+    .r1{width:180px;height:180px}.r2{width:280px;height:280px}.r3{width:360px;height:360px}
+    .oi{position:absolute;width:36px;height:36px;border-radius:10px;background:#fff;border:1px solid #eee;box-shadow:0 6px 16px #10182814;display:flex;align-items:center;justify-content:center;font-size:14px}
+    .toast{position:absolute;background:#fff;border:1px solid #eee;border-radius:12px;padding:8px 12px;box-shadow:0 8px 20px #10182814;font-size:12px}
+    .toast b{display:block}
+    .toast span{color:#667085;font-size:11px}
+    .hbar{position:absolute;left:8%;right:8%;bottom:0;background:#fff;border:1px solid #eee;border-radius:14px;display:flex;padding:10px 8px;box-shadow:0 8px 20px #1018280d}
+    .hbar div{flex:1;text-align:center;font-size:11px;color:#667085}
+    .hbar strong{display:block;color:#101828;font-size:14px}
+    .cmp{max-width:1100px;margin:0 auto;padding:20px 32px 48px}
+    .cmp h3{text-align:center;font-size:28px;margin-bottom:8px}
+    .cmp .cs{text-align:center;color:#667085;margin-bottom:22px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #eee;border-radius:16px;overflow:hidden}
+    th,td{padding:14px 12px;font-size:14px;border-bottom:1px solid #f2f4f7}
+    th{background:#fafafa;font-size:12px;color:#344054}
+    .ai{color:#7a5af8;font-weight:700}
+    .rev{background:#f8f6ff}
+    .tag{border-radius:99px;padding:2px 8px;font-size:12px;font-weight:600}
+    .hi{background:#fffaeb;color:#b54708}.ok{background:#ecfdf3;color:#027a48}.md{background:#f2f4f7;color:#475467}
+    .feat{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;max-width:1120px;margin:0 auto;padding:64px 32px}
+    .feat.revr .copy{order:2}
+    .kicker{font-size:11px;font-weight:700;letter-spacing:.08em;color:#667085;margin-bottom:12px}
+    .feat h3{font-size:clamp(26px,3vw,38px);letter-spacing:-.03em;line-height:1.15;margin-bottom:12px}
+    .feat h3 em{color:#667085;font-style:italic}
+    .feat p{color:#667085;line-height:1.7;margin-bottom:18px;max-width:440px}
+    .link{background:none;border:0;color:#7a5af8;font-weight:600;cursor:pointer;padding:0}
+    .card{background:#fff;border:1px solid #eee;border-radius:20px;box-shadow:0 12px 40px #10182812;overflow:hidden}
+    .phone{width:320px;margin:0 auto;background:linear-gradient(#eef0f4,#cfd4dc);border-radius:42px;padding:10px;box-shadow:0 40px 80px #46546755}
+    .ps{background:#f6f7f9;border-radius:34px;height:580px;position:relative;display:flex;flex-direction:column;overflow:hidden}
+    .island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:26px;background:#0a0d12;border-radius:16px;z-index:2}
+    .st{height:42px;display:flex;justify-content:space-between;padding:16px 22px 0;font-size:13px;font-weight:600}
+    .phd{display:flex;align-items:center;gap:10px;padding:8px 18px;border-bottom:1px solid #eaecf0}
+    .av{width:38px;height:38px;border-radius:50%;background:linear-gradient(#528bff,#004eeb);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
+    .ready-dot{color:#039855;font-size:12px}
+    .orbp{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px}
+    .pdot{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#5b8cff,#155eef);box-shadow:0 0 0 16px #155eef14;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px}
+    .pdot.live{background:radial-gradient(circle,#7aa2ff,#155eef);animation:pulse 1.6s ease-in-out infinite}
+    @keyframes pulse{50%{transform:scale(1.06)}}
+    .hintp{color:#98a2b3;font-size:12px;text-align:center;max-width:200px}
+    .bub{align-self:stretch;margin:0 16px;background:#e8eaee;border-radius:14px;padding:12px;font-size:13px;line-height:1.45;color:#101828}
+    .bub lab{display:block;color:#98a2b3;font-size:11px;margin-bottom:4px}
+    .pfoot{padding:10px 16px 18px;display:flex;justify-content:center}
+    .call{background:#155eef;color:#fff;border:0;border-radius:999px;padding:11px 22px;font-weight:700;cursor:pointer}
+    .end{background:#e11d2e;color:#fff;border:0;border-radius:999px;padding:11px 22px;font-weight:700;cursor:pointer}
+    .home{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:110px;height:5px;background:#d0d5dd;border-radius:99px}
+    .chat{padding:22px}
+    .ct{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:13px;font-weight:600;color:#344054}
+    .ct:before,.ct:after{content:"";flex:1;height:1px;background:#e5e7eb}
+    .u{display:flex;flex-direction:column;align-items:flex-end;margin:10px 0}
+    .u .who{font-size:12px;font-weight:600;margin-bottom:4px}
+    .u .m{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:10px 12px;max-width:86%;color:#475467;font-size:13px;line-height:1.5}
+    .a{margin:10px 0}
+    .al{color:#7a5af8;font-size:12px;font-weight:700;margin-bottom:4px}
+    .review{padding:20px}
+    .stars{color:#f79009}
+    .rep{background:#f5f3ff;border-radius:12px;padding:12px;margin-top:10px}
+    .rep b{color:#6d28d9;font-size:12px}
+    .trust{max-width:1100px;margin:20px auto 40px;border:1px solid #f2f4f7;border-radius:20px;padding:36px;text-align:center;box-shadow:0 8px 24px #10182808}
+    .trust-k{font-size:11px;letter-spacing:.1em;color:#7a5af8;font-weight:700;margin-bottom:20px}
+    .tm{display:flex;justify-content:space-around;flex-wrap:wrap;gap:12px}
+    .tm strong{display:block;font-size:26px}
+    .tm span{font-size:11px;letter-spacing:.06em;color:#667085}
+    .ship{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:1120px;margin:0 auto;padding:24px 32px 80px}
+    .ship h2{font-size:34px;letter-spacing:-.03em;margin:8px 0 24px}
+    .tab{width:100%;text-align:left;background:none;border:0;border-top:1px solid #f2f4f7;padding:16px 0;cursor:pointer}
+    .tab .t{font-weight:600;color:#d0d5dd;display:flex;justify-content:space-between}
+    .tab.on .t{color:#101828}
+    .tab .d{display:none;color:#667085;font-size:13px;margin-top:8px;line-height:1.55}
+    .tab.on .d{display:block}
+    .sc{border:1px solid #eee;border-radius:20px;box-shadow:0 16px 40px #10182812;overflow:hidden;background:#fff}
+    .sch{padding:18px;display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid #f2f4f7}
+    .ico{width:40px;height:40px;border-radius:10px;background:#f4f3ff;display:flex;align-items:center;justify-content:center}
+    .pill2{margin-left:auto;background:#f4f3ff;color:#6938ef;border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700}
+    .ss{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #f2f4f7}
+    .ss div{text-align:center;padding:14px 8px;border-right:1px solid #f2f4f7}
+    .ss div:last-child{border:0}
+    .ss strong{display:block;font-size:20px}
+    .ss span{font-size:11px;color:#667085}
+    .fl{list-style:none;padding:14px 18px;font-size:13.5px;color:#475467}
+    .fl li{margin:8px 0}
+    .fl li:before{content:"✓ ";color:#039855;font-weight:700}
+    .dep{margin:14px 18px 18px;width:calc(100% - 36px);background:#6938ef;color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700;cursor:pointer}
+    .modal{position:fixed;inset:0;background:#10182880;display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+    .modal.open{display:flex}
+    .mc{background:#fff;border-radius:16px;max-width:460px;width:100%;padding:24px}
+    .mc h3{margin-bottom:8px}
+    .mc p{color:#667085;font-size:14px;margin-bottom:16px;line-height:1.55}
+    .opt{display:block;width:100%;text-align:left;border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px;background:#fff;cursor:pointer;text-decoration:none;color:inherit}
+    .opt.p{background:#7a5af8;border-color:#7a5af8;color:#fff}
+    .x{float:right;border:0;background:none;font-size:20px;cursor:pointer}
+    @media(max-width:960px){
+      .sa,.hero2,.feat,.ship{grid-template-columns:1fr}
+      .globe-wrap{height:320px}
+      canvas#globe{width:320px;height:320px}
+      .stats-grid{grid-template-columns:1fr}
+      .feat.revr .copy{order:unset}
     }
   </style>
 </head>
 <body>
   <div class="topbar">
     <div class="brand">PATRASCU <span>AI</span></div>
-    <div class="lang" role="group">
-      <button type="button" data-lang="ro" aria-pressed="true">RO</button>
-      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+    <div class="lang">
+      <button data-lang="en" aria-pressed="true">EN</button>
+      <button data-lang="ro" aria-pressed="false">RO</button>
+      <button data-lang="ru" aria-pressed="false">RU</button>
     </div>
   </div>
 
-  <div class="ai-value-landing">
-    <section class="hero">
-      <div class="hero-layout">
-        <div>
-          <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span> <span data-i18n="eyebrow">Platformă cu AI</span></div>
-          <h1 class="hero-heading" data-i18n-html="h1">Afacerea ta <em>pierde</em> clienți în fiecare zi</h1>
-          <p class="hero-sub" data-i18n-html="sub">Chiar acum ratezi <strong>62% din apelurile de după program</strong> și ignori <strong>78% din mesajele de chat</strong>. Agenții AI astupă scurgerile: răspund la fiecare lead instant și salvează până la 200.000 $ din veniturile pierdute pe no-show, complet pe autopilot.</p>
-          <button class="cta" data-open-modal data-i18n="cta">Începe</button>
-        </div>
-        <div class="hero-orbital-outer">
-          <div class="hero-orbital" role="img" aria-label="AI hub">
-            <div class="orb-ring outer"></div>
-            <div class="orb-ring"></div>
-            <div class="orb-core">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
-            </div>
-            <div class="orb-icon a"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102A1.125 1.125 0 005.872 2.25H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg></div>
-            <div class="orb-icon b"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7.5 8.25h9m-9 3H12M21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg></div>
-            <div class="orb-icon c"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5A2.25 2.25 0 015.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25M3 18.75A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75M3 18.75v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg></div>
-            <div class="orb-icon d"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11.48 3.499a5.25 5.25 0 013.956 6.176 5.25 5.25 0 01-1.632 2.91l-6.26 6.26a.75.75 0 01-1.06 0l-3.182-3.182a.75.75 0 010-1.06l6.26-6.26a5.25 5.25 0 012.91-1.632 5.232 5.232 0 011.008-.172z"/></svg></div>
-            <div class="hero-toast left"><span class="toast-dot amber"></span><div><div class="toast-title" data-i18n="t1">Review răspuns</div><div class="toast-time" data-i18n="t1s">acum 5s</div></div></div>
-            <div class="hero-toast right"><span class="toast-dot purple"></span><div><div class="toast-title" data-i18n="t2">Programare confirmată</div><div class="toast-time" data-i18n="t2s">acum 8s</div></div></div>
-            <div class="hero-stats-bar">
-              <div class="stat-item"><div class="stat-ico">☎</div><div><div class="stat-val">14.7M+</div><div class="stat-lab" data-i18n="s1">Apeluri</div></div></div>
-              <div class="stat-div"></div>
-              <div class="stat-item"><div class="stat-ico">📅</div><div><div class="stat-val">860K+</div><div class="stat-lab" data-i18n="s2">Rezervate</div></div></div>
-              <div class="stat-div"></div>
-              <div class="stat-item"><div class="stat-ico">💬</div><div><div class="stat-val">18.7M+</div><div class="stat-lab" data-i18n="s3">Mesaje</div></div></div>
-            </div>
-          </div>
-        </div>
+  <section class="sa">
+    <div>
+      <h1>Your <span class="ph" id="phrase"></span><span class="caret"></span><span class="ready">is ready.</span></h1>
+      <p class="sub" data-i="sub">Just describe your business. We'll build the right agents for you.</p>
+      <div class="btns">
+        <button class="btn-blue" data-open>+ Create from scratch</button>
+        <button class="btn-ghost" data-go="mkt">Explore templates</button>
       </div>
-    </section>
-
-    <section class="stats-section">
-      <div class="compare-header-text">
-        <h2 class="compare-table-title" data-i18n="num">Cifrele nu mint</h2>
-        <p class="compare-table-sub" data-i18n="numsub">80% din lead-uri se pierd în primele 5 minute. Răspunde instant, bate concurența.</p>
-      </div>
-      <div class="compare-table-wrap">
-        <table class="compare">
-          <thead>
-            <tr>
-              <th class="col-label"></th>
-              <th class="col-c"><div class="th-cell"><span class="badge cyan">👤</span><span data-i18n="human">Agent uman</span></div></th>
-              <th class="col-c"><div class="th-cell"><span class="badge purple">✦</span><span data-i18n="ai">Agent AI</span></div></th>
-              <th class="col-c"><div class="th-cell"><span class="badge yellow">⚡</span><span data-i18n="impact">Impact</span></div></th>
-              <th class="col-rev top"><div class="th-cell"><span class="badge pink">$</span><span data-i18n="est">Estimare</span></div></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="metric" data-i18n="r1">Apeluri ratate / lună</td><td class="cell">62%</td><td class="cell ai">&lt;3%</td><td class="col-c"><span class="impact warn" data-i18n="vh">Foarte mare</span></td><td class="col-rev est">+$12k–$28k/lună</td></tr>
-            <tr><td class="metric" data-i18n="r2">Chat-uri ratate</td><td class="cell">78%</td><td class="cell ai">0%</td><td class="col-c"><span class="impact warn" data-i18n="h">Mare</span></td><td class="col-rev est">+$8k–$18k/lună</td></tr>
-            <tr><td class="metric" data-i18n="r3">Disponibilitate</td><td class="cell">8 h/zi</td><td class="cell ai">24x7</td><td class="col-c"><span class="impact warn" data-i18n="h">Mare</span></td><td class="col-rev est">+$6k–$14k/lună</td></tr>
-            <tr><td class="metric" data-i18n="r4">Timp de răspuns</td><td class="cell">~34 min</td><td class="cell ai">&lt;1 sec</td><td class="col-c"><span class="impact neu" data-i18n="mh">Mediu-mare</span></td><td class="col-rev est">+$4k–$10k/lună</td></tr>
-            <tr><td class="metric" data-i18n="r5">Răspuns la recenzii</td><td class="cell">11%</td><td class="cell ai">98%</td><td class="col-c"><span class="impact neu" data-i18n="m">Mediu</span></td><td class="col-rev est">+$2k–$6k/lună</td></tr>
-            <tr><td class="metric" data-i18n="r6">Conversie lead</td><td class="cell">23%</td><td class="cell ai">48%</td><td class="col-c"><span class="impact ok" data-i18n="vh">Foarte mare</span></td><td class="col-rev bot est">+$15k–$40k/lună</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <div class="feature-sections">
-      <section class="feature-row">
-        <div class="feature-content">
-          <div class="feature-eyebrow" data-i18n="veye">Agent vocal</div>
-          <h2 class="feature-heading" data-i18n-html="vh2">Nu mai rata niciun apel,<br><em>niciodată</em></h2>
-          <p class="feature-desc" data-i18n="vd">Nu mai pierzi rezervări. Agentul vocal preia fiecare apel 24x7 — programări, meniu, cerințe alimentare, listă de așteptare — conversație naturală, inclusiv în orele de vârf.</p>
-          <button class="feature-cta" data-open-modal data-i18n="cta">Începe →</button>
-        </div>
-        <div class="feature-demo" style="box-shadow:none;background:none">
-          <div class="vtp">
-            <div class="vtp-screen">
-              <div class="vtp-island"></div>
-              <div class="vtp-status"><span>9:41</span><span>LTE</span></div>
-              <div class="vtp-head">
-                <div class="vtp-av">LS</div>
-                <div><div class="vtp-biz">Lumen Studio</div><div class="vtp-st"><i></i> <span data-i18n="ready">Gata de test</span></div></div>
-              </div>
-              <div class="vtp-orb"><button class="orb-btn" data-open-modal type="button">☎<span data-i18n="tap">Apelează</span></button></div>
-              <div class="vtp-foot"><button class="vtp-call" data-open-modal data-i18n="startcall">Pornește apelul de test</button></div>
-              <div class="vtp-home"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <hr class="feature-divider"/>
-      <section class="feature-row reverse">
-        <div class="feature-content">
-          <div class="feature-eyebrow" data-i18n="seye">Agent vânzări</div>
-          <h2 class="feature-heading" data-i18n-html="sh2">Transformă lead-urile în<br><em>venit, pe autopilot</em></h2>
-          <p class="feature-desc" data-i18n="sd">Lead-uri de pe orice canal → vânzări sau programări non-stop, cu un angajat AI orientat pe obiectiv, personalizat pe business-ul tău.</p>
-          <button class="feature-cta" data-open-modal data-i18n="cta">Începe →</button>
-        </div>
-        <div class="demo-card">
-          <div class="chat">
-            <div class="chat-title" data-i18n="leadc">Conversie lead</div>
-            <div class="bubble-user"><div class="who">John Doe</div><div class="msg" data-i18n="c1">Caut un Ford XLT negru, cu hayon remote.</div></div>
-            <div class="bubble-ai"><div class="ai-lab">✦ AI Agent</div><div class="msg" data-i18n="c2">Avem două pe stoc. Vrei un test drive azi?</div></div>
-            <div class="bubble-user"><div class="who">John Doe</div><div class="msg" data-i18n="c3">Da. Trimite-mi prețurile. Care e cel mai rapid pas?</div></div>
-            <div class="bubble-ai"><div class="ai-lab">✦ AI Agent</div><div class="msg" data-i18n="c4">Am trimis prețurile. Următorul pas: un apel de onboarding de 15 minute.</div></div>
-          </div>
-        </div>
-      </section>
-      <hr class="feature-divider"/>
-      <section class="feature-row">
-        <div class="feature-content">
-          <div class="feature-eyebrow" data-i18n="aeye">Programator</div>
-          <h2 class="feature-heading" data-i18n-html="ah2">Mai multe programări,<br><em>automat</em></h2>
-          <p class="feature-desc" data-i18n="ad">Colectează datele, propune ore, umple calendarul și găsește ferestre libere — non-stop.</p>
-          <button class="feature-cta" data-open-modal data-i18n="cta">Începe →</button>
-        </div>
-        <div class="demo-card">
-          <div class="chat">
-            <div class="chat-title" data-i18n="aeye">Programator</div>
-            <div class="bubble-user"><div class="who">John Doe</div><div class="msg" data-i18n="a1">Trebuie să mut programarea. Ai ceva după ora 16 azi?</div></div>
-            <div class="bubble-ai"><div class="ai-lab">✦ AI Agent</div><div class="msg" data-i18n="a2">Te mut la 16:30 azi. Confirm slotul?</div></div>
-            <div class="bubble-user"><div class="who">John Doe</div><div class="msg" data-i18n="a3">16:30 e ok. Trimite-mi și adresa pe SMS.</div></div>
-            <div class="bubble-ai"><div class="ai-lab">✦ AI Agent</div><div class="msg" data-i18n="a4">Gata. Programarea e la 16:30. Adresa a plecat pe telefon.</div></div>
-          </div>
-        </div>
-      </section>
-      <hr class="feature-divider"/>
-      <section class="feature-row reverse">
-        <div class="feature-content">
-          <div class="feature-eyebrow" data-i18n="reye">Manager reputație</div>
-          <h2 class="feature-heading" data-i18n-html="rh2">Reputație de 5 stele<br><em>pe autopilot</em></h2>
-          <p class="feature-desc" data-i18n="rd">Răspunsuri personalizate la recenzii, control total pe ce se publică, vizibilitate mai bună pe Google.</p>
-          <button class="feature-cta" data-open-modal data-i18n="cta">Începe →</button>
-        </div>
-        <div class="demo-card">
-          <div class="review">
-            <div class="review-h">
-              <div class="review-ico">★</div>
-              <div><div style="font-weight:600" data-i18n="revt">Agent răspuns recenzii</div><div style="color:#667085;font-size:13px" data-i18n="revs">Răspunsuri AI la feedback</div></div>
-            </div>
-            <div class="rev-who"><div class="av">SS</div><div><div style="font-weight:600">Sara Smith</div><div class="stars">★★★★★</div></div></div>
-            <p class="rev-text" data-i18n="revb">Tehnicienii au fost super amabili și prețurile bune. Programare ușoară, m-au primit în aceeași zi.</p>
-            <div class="reply"><div class="reply-lab" data-i18n="autr">AI Agent · Auto-reply</div><div data-i18n="reva">Ne bucurăm că ți-a plăcut, Sara! Mulțumim că ai ales Johnson HVAC.</div></div>
-          </div>
-        </div>
-      </section>
+      <div class="hint" data-i="prefer">Prefer to build it yourself?</div>
+      <div class="try" data-i="try">Try asking:</div>
+      <div class="chips" id="chips"></div>
     </div>
+    <div class="globe-wrap">
+      <div class="glow"></div>
+      <canvas id="globe" width="840" height="840"></canvas>
+      <div class="mic">🎙️</div>
+      <button class="talk" id="talk" type="button">Tap to talk</button>
+    </div>
+  </section>
 
-    <section class="trust">
-      <div class="trust-eyebrow" data-i18n="trust">Încredere pe toată platforma</div>
-      <div class="trust-metrics">
-        <div class="trust-metric"><div class="trust-value">14.7M+</div><div class="trust-label" data-i18n="s1">Apeluri</div></div>
-        <div class="trust-div"></div>
-        <div class="trust-metric"><div class="trust-value">860K+</div><div class="trust-label" data-i18n="tb">Programări</div></div>
-        <div class="trust-div"></div>
-        <div class="trust-metric"><div class="trust-value">64,000+</div><div class="trust-label" data-i18n="th">Ore salvate</div></div>
-        <div class="trust-div"></div>
-        <div class="trust-metric"><div class="trust-value">27M+</div><div class="trust-label" data-i18n="tr">Venit extra</div></div>
-        <div class="trust-div"></div>
-        <div class="trust-metric"><div class="trust-value">18.7M+</div><div class="trust-label" data-i18n="s3">Mesaje</div></div>
+  <section class="stats">
+    <div class="wrap">
+      <div class="stats-k" id="sk"></div>
+      <div class="stats-grid" id="sg"></div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+  <section class="mkt" id="mkt">
+    <div class="mkt-k" data-i="mk">READY-MADE AGENTS</div>
+    <h2 data-i="mh">Pick your industry. Go live in minutes.</h2>
+    <p data-i="mp">No scripting. No setup calls. Just pick the one that fits, tweak the name, and start taking calls.</p>
+    <div class="faces">
+      <i style="background:#fde68a"></i><i style="background:#a7f3d0"></i><i style="background:#c4b5fd"></i><i style="background:#fda4af"></i>
+    </div>
+    <button class="btn-purp" data-open data-i="mb">Browse all marketplace templates →</button>
+  </section>
+
+  <section class="hero2">
+    <div>
+      <div class="pill"><span class="dot"></span> <span data-i="ey">AI-POWERED PLATFORM</span></div>
+      <h2 data-ih="h2">Your Business is <em>Losing</em> Customers Every Day</h2>
+      <p class="sub" data-ih="h2s">Right now, you're missing <b>62% of your after-hours calls</b> and ignoring <b>78% of your chat messages</b>. Our AI Agents plug the leaks in your business, responding to every lead instantly and rescuing up to $200k in "no-show" revenue, completely on autopilot.</p>
+      <button class="cta" data-open data-i="gs">Get Started →</button>
+    </div>
+    <div class="orb">
+      <div class="ring r3"></div><div class="ring r2"></div><div class="ring r1"></div>
+      <div class="orb-core">✦</div>
+      <div class="oi" style="top:8%;left:48%">📎</div>
+      <div class="oi" style="top:28%;left:18%">💬</div>
+      <div class="oi" style="top:38%;right:8%">⚡</div>
+      <div class="oi" style="top:22%;right:18%">→</div>
+      <div class="oi" style="bottom:28%;left:22%">☎</div>
+      <div class="toast" style="left:6%;top:42%"><b>Review replied</b><span>5s ago</span></div>
+      <div class="toast" style="right:0;top:48%"><b>Booking confirmed</b><span>8s ago</span></div>
+      <div class="hbar">
+        <div><strong>14.7M+</strong>Calls handled</div>
+        <div><strong>860K+</strong>Booked</div>
+        <div><strong>18.7M+</strong>Messages</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="ship">
-      <div class="ship-grid">
-        <div>
-          <p class="ship-eyebrow" data-i18n="shipe">Găsește agenții potriviți</p>
-          <h2 class="ship-heading" data-i18n="shiph">Lansează AI, cum vrei tu</h2>
-          <div class="ship-tabs" id="tabs"></div>
+  <section class="cmp">
+    <h3 data-i="num">Numbers don't lie</h3>
+    <p class="cs" data-i="nums">80% of leads are lost in the first 5 minutes. Respond to leads instantly, beat your competition.</p>
+    <table>
+      <thead>
+        <tr><th></th><th>👤 Human Agent</th><th>✦ AI Agent</th><th>Revenue Impact</th><th class="rev">Estimate</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Missed Calls Every Month</td><td>62%</td><td class="ai">&lt;3%</td><td><span class="tag hi">Very High</span></td><td class="rev">+$12k–$28k/mo</td></tr>
+        <tr><td>Missed Chat Conversations</td><td>78%</td><td class="ai">0%</td><td><span class="tag hi">High</span></td><td class="rev">+$8k–$18k/mo</td></tr>
+        <tr><td>Employee Availability</td><td>8 hrs/day</td><td class="ai">24x7</td><td><span class="tag hi">High</span></td><td class="rev">+$6k–$14k/mo</td></tr>
+        <tr><td>Response Time</td><td>~34 min</td><td class="ai">&lt;1 sec</td><td><span class="tag md">Medium-High</span></td><td class="rev">+$4k–$10k/mo</td></tr>
+        <tr><td>Review Response Rate</td><td>11%</td><td class="ai">98%</td><td><span class="tag md">Medium</span></td><td class="rev">+$2k–$6k/mo</td></tr>
+        <tr><td>Lead Conversion Rate</td><td>23%</td><td class="ai">48%</td><td><span class="tag ok">Very High</span></td><td class="rev">+$15k–$40k/mo</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="feat">
+    <div class="copy">
+      <div class="kicker">VOICE AGENT</div>
+      <h3>Never miss a call,<br><em>ever again</em></h3>
+      <p>Never lose a reservation again. Your Voice Agent picks up every call to your restaurant 24x7—handling bookings, answering menu questions, confirming dietary accommodations, and managing waitlists in natural conversation, even during the dinner rush when your staff is slammed.</p>
+      <button class="link" data-open>Get Started →</button>
+    </div>
+    <div class="phone">
+      <div class="ps">
+        <div class="island"></div>
+        <div class="st"><span>9:41</span><span>LTE</span></div>
+        <div class="phd">
+          <div class="av">LS</div>
+          <div>
+            <div style="font-weight:700">Lumen Studio</div>
+            <div class="ready-dot" id="pstat">● Ready to test</div>
+          </div>
         </div>
-        <div class="ship-card" id="shipCard"></div>
+        <div class="orbp">
+          <div class="pdot" id="pdot">🎙️</div>
+          <div class="hintp" id="phint">Tap the orb or the button below to place a live test call to your Voice Agent.</div>
+          <div class="bub" id="pbub" style="display:none"><lab>AI Agent</lab>Hey there! Welcome to PATRASCU AI AGENCY — Demo. I'm your AI assistant — I can book appointments, answer questions, and take down details. What would you like to try?</div>
+        </div>
+        <div class="pfoot"><button class="call" id="pbtn" type="button">☎ Start test call</button></div>
+        <div class="home"></div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <div class="modal" id="modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <button class="x" type="button" data-close>×</button>
-      <h3 data-i18n="modh">Conectează un număr / cere demo</h3>
-      <p data-i18n="modp">Apel, înregistrare, transcriere și follow-up — totul într-un loc. Pentru Demo îți arătăm live pe WhatsApp.</p>
-      <a class="opt primary" href="https://wa.me/37368258248" target="_blank" rel="noopener">
-        <strong data-i18n="wa">Vreau demo pe WhatsApp</strong>
-        <span>0682 58 248</span>
-      </a>
-      <button class="opt" type="button"><strong data-i18n="ex">Folosește numărul existent</strong><span data-i18n="exs">Doar outbound. Test în 60 de secunde.</span></button>
-      <button class="opt" type="button"><strong data-i18n="buy">Cumpără număr</strong><span data-i18n="buys">Outbound și inbound</span></button>
+  <section class="feat revr">
+    <div class="copy">
+      <div class="kicker">SALES AGENT</div>
+      <h3>Turn leads into<br><em>revenue, on autopilot</em></h3>
+      <p>Turn leads from any channel into more sales or appointments around the clock, with a goal-oriented AI Employee personalized to your business and your customers.</p>
+      <button class="link" data-open>Get Started →</button>
+    </div>
+    <div class="card chat">
+      <div class="ct">✦ Lead Conversion</div>
+      <div class="u"><div class="who">John Doe</div><div class="m">Hey, I'm looking for a new Ford XLT in black with remote tailgate.</div></div>
+      <div class="a"><div class="al">✦ AI Agent</div>Hi there, good news, we have two of those on the lot. Do you want to come by for a test drive today?</div>
+      <div class="u"><div class="who">John Doe</div><div class="m">That sounds good. Can you send me pricing details?<br>Also, what is the fastest way to get started?</div></div>
+      <div class="a"><div class="al">✦ AI Agent</div>Absolutely. I sent over pricing details and the quickest next step is to book a 15-minute onboarding call.</div>
+    </div>
+  </section>
+
+  <section class="feat">
+    <div class="copy">
+      <div class="kicker">APPOINTMENT SCHEDULER</div>
+      <h3>Book more appointments,<br><em>automatically</em></h3>
+      <p>Turn leads into new business around the clock by automatically collecting appointment details, driving more bookings, and identifying opportunities to optimize schedules.</p>
+      <button class="link" data-open>Get Started →</button>
+    </div>
+    <div class="card chat">
+      <div class="ct">✦ Appointment Scheduler</div>
+      <div class="u"><div class="who">John Doe</div><div class="m">Need to reschedule my appointment. Do you have anything after 4 PM today?</div></div>
+      <div class="a"><div class="al">✦ AI Agent</div>Yes, I can move you to 4:30 PM today. Should I confirm that slot?</div>
+      <div class="u"><div class="who">John Doe</div><div class="m">4:30 PM works.<br>Please text me the address too.</div></div>
+      <div class="a"><div class="al">✦ AI Agent</div>Done. Your appointment is set for 4:30 PM, and I just sent the address to your phone.</div>
+    </div>
+  </section>
+
+  <section class="feat revr">
+    <div class="copy">
+      <div class="kicker">AI REPUTATION MANAGER</div>
+      <h3>Build a 5-star reputation<br><em>on autopilot</em></h3>
+      <p>Show up higher on Google by automatically responding to reviews with personalized and professional replies, while retaining full control over which reviews are addressed.</p>
+      <button class="link" data-open>Get Started →</button>
+    </div>
+    <div class="card review">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <div class="ico">★</div>
+        <div><b>Review Response Agent</b><div style="color:#667085;font-size:12px">AI-crafted replies for customer feedback</div></div>
+      </div>
+      <div><b>Sara Smith</b> <span class="stars">★★★★★</span></div>
+      <p style="color:#475467;margin:8px 0">The technicians was super nice and the prices were great. They were easy to schedule with and able to see me the same day.</p>
+      <div class="rep"><b>AI Agent · Auto-reply</b><div>We're glad you enjoyed your experience with us, Sara! We appreciate your business and thank you for choosing Johnson HVAC.</div></div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="trust-k">TRUSTED ACROSS THE PLATFORM</div>
+    <div class="tm">
+      <div><strong>14.7M+</strong><span>CALLS</span></div>
+      <div><strong>860K+</strong><span>APPOINTMENTS BOOKED</span></div>
+      <div><strong>64,000+</strong><span>HOURS SAVED</span></div>
+      <div><strong>27M+</strong><span>REVENUE UPLIFT</span></div>
+      <div><strong>18.7M+</strong><span>MESSAGES SENT</span></div>
+    </div>
+  </section>
+
+  <section class="ship">
+    <div>
+      <div class="kicker">Find the right agents for your business</div>
+      <h2>Ship AI, any way you want</h2>
+      <div id="tabs"></div>
+    </div>
+    <div class="sc" id="scard"></div>
+  </section>
+
+  <div class="modal" id="modal">
+    <div class="mc">
+      <button class="x" data-close>×</button>
+      <h3>Create from scratch</h3>
+      <p>We'll spin up a Voice AI agent for PATRASCU AI AGENCY — Demo. Fastest path: WhatsApp us and we build it live.</p>
+      <a class="opt p" href="https://wa.me/37368258248" target="_blank" rel="noopener"><b>Demo on WhatsApp</b><br>0682 58 248</a>
+      <button class="opt" type="button"><b>Use existing number</b><br>Outbound only. Test call in 60 seconds.</button>
+      <button class="opt" type="button"><b>Buy phone number</b><br>Outbound and inbound calls</button>
     </div>
   </div>
 
 <script>
-const I18N = {
-  ro: {
-    eyebrow: "Platformă cu AI",
-    h1: "Afacerea ta <em>pierde</em> clienți în fiecare zi",
-    sub: "Chiar acum ratezi <strong>62% din apelurile de după program</strong> și ignori <strong>78% din mesajele de chat</strong>. Agenții AI astupă scurgerile: răspund la fiecare lead instant și salvează până la 200.000 $ din veniturile pierdute pe no-show, complet pe autopilot.",
-    cta: "Începe",
-    t1: "Review răspuns", t1s: "acum 5s", t2: "Programare confirmată", t2s: "acum 8s",
-    s1: "Apeluri", s2: "Rezervate", s3: "Mesaje",
-    num: "Cifrele nu mint",
-    numsub: "80% din lead-uri se pierd în primele 5 minute. Răspunde instant, bate concurența.",
-    human: "Agent uman", ai: "Agent AI", impact: "Impact", est: "Estimare",
-    r1: "Apeluri ratate / lună", r2: "Chat-uri ratate", r3: "Disponibilitate",
-    r4: "Timp de răspuns", r5: "Răspuns la recenzii", r6: "Conversie lead",
-    vh: "Foarte mare", h: "Mare", mh: "Mediu-mare", m: "Mediu",
-    veye: "Agent vocal", vh2: "Nu mai rata niciun apel,<br><em>niciodată</em>",
-    vd: "Nu mai pierzi rezervări. Agentul vocal preia fiecare apel 24x7 — programări, meniu, cerințe alimentare, listă de așteptare — conversație naturală, inclusiv în orele de vârf.",
-    ready: "Gata de test", tap: "Apelează", startcall: "Pornește apelul de test",
-    seye: "Agent vânzări", sh2: "Transformă lead-urile în<br><em>venit, pe autopilot</em>",
-    sd: "Lead-uri de pe orice canal → vânzări sau programări non-stop, cu un angajat AI orientat pe obiectiv, personalizat pe business-ul tău.",
-    leadc: "Conversie lead",
-    c1: "Caut un Ford XLT negru, cu hayon remote.",
-    c2: "Avem două pe stoc. Vrei un test drive azi?",
-    c3: "Da. Trimite-mi prețurile. Care e cel mai rapid pas?",
-    c4: "Am trimis prețurile. Următorul pas: un apel de onboarding de 15 minute.",
-    aeye: "Programator", ah2: "Mai multe programări,<br><em>automat</em>",
-    ad: "Colectează datele, propune ore, umple calendarul și găsește ferestre libere — non-stop.",
-    a1: "Trebuie să mut programarea. Ai ceva după ora 16 azi?",
-    a2: "Te mut la 16:30 azi. Confirm slotul?",
-    a3: "16:30 e ok. Trimite-mi și adresa pe SMS.",
-    a4: "Gata. Programarea e la 16:30. Adresa a plecat pe telefon.",
-    reye: "Manager reputație", rh2: "Reputație de 5 stele<br><em>pe autopilot</em>",
-    rd: "Răspunsuri personalizate la recenzii, control total pe ce se publică, vizibilitate mai bună pe Google.",
-    revt: "Agent răspuns recenzii", revs: "Răspunsuri AI la feedback",
-    revb: "Tehnicienii au fost super amabili și prețurile bune. Programare ușoară, m-au primit în aceeași zi.",
-    autr: "AI Agent · Auto-reply",
-    reva: "Ne bucurăm că ți-a plăcut, Sara! Mulțumim că ai ales Johnson HVAC.",
-    trust: "Încredere pe toată platforma", tb: "Programări", th: "Ore salvate", tr: "Venit extra",
-    shipe: "Găsește agenții potriviți", shiph: "Lansează AI, cum vrei tu",
-    tabs: [
-      { title: "Agent vocal", hint: "Cel mai rapid setup", desc: "Preia apelurile 24x7. Testezi din browser, legi un număr, e live.", link: "Începe", badge: "+38%", stats: [["24/7","Disponibil"],["&lt;1m","Setup"],["0","Apeluri ratate"]], feats: ["Răspunde natural la telefon","Test web fără număr","Leagă numărul și pornește"] },
-      { title: "Agent vânzări", hint: "Cel mai bun pe lead-uri", desc: "Transformă mesajele de pe orice canal în programări și vânzări.", link: "Începe", badge: "Lead", stats: [["48%","Conversie"],["&lt;1s","Răspuns"],["24/7","Activ"]], feats: ["SMS, chat, Messenger","Califică și programează","Follow-up automat"] },
-      { title: "Programator", hint: "Mai multe rezervări", desc: "Colectează datele, propune ore și umple calendarul automat.", link: "Începe", badge: "+38%", stats: [["+38%","Rezervări"],["&lt;1m","Slot"],["24/7","Disponibil"]], feats: ["Propune intervale libere","Colectează datele clientului","Reminder-uri anti no-show","Sync cu calendarul existent"] },
-      { title: "Reputație", hint: "Efort minim", desc: "Răspunde recenziilor cu tonul brandului, tu ții controlul.", link: "Deploy now", badge: "Low effort", stats: [["98%","Răspuns"],["5★","Ton"],["auto","Mod"]], feats: ["Răspuns personalizat","Tu aprobi ce vrei","SEO local mai bun"] }
-    ],
-    deploy: "Deploy now",
-    modh: "Conectează un număr / cere demo",
-    modp: "Apel, înregistrare, transcriere și follow-up — totul într-un loc. Pentru Demo îți arătăm live pe WhatsApp.",
-    wa: "Vreau demo pe WhatsApp",
-    ex: "Folosește numărul existent", exs: "Doar outbound. Test în 60 de secunde.",
-    buy: "Cumpără număr", buys: "Outbound și inbound"
-  },
-  ru: {
-    eyebrow: "Платформа с ИИ",
-    h1: "Ваш бизнес <em>теряет</em> клиентов каждый день",
-    sub: "Сейчас вы пропускаете <strong>62% звонков вне часов</strong> и игнорируете <strong>78% чатов</strong>. ИИ-агенты закрывают дыры: отвечают на каждый лид сразу и спасают до $200k выручки с no-show — на автопилоте.",
-    cta: "Начать",
-    t1: "Отзыв отвечен", t1s: "5с назад", t2: "Запись подтверждена", t2s: "8с назад",
-    s1: "Звонки", s2: "Записи", s3: "Сообщения",
-    num: "Цифры не врут",
-    numsub: "80% лидов теряются в первые 5 минут. Отвечайте сразу — обгоняйте конкурентов.",
-    human: "Человек", ai: "ИИ-агент", impact: "Эффект", est: "Оценка",
-    r1: "Пропущенные звонки / мес", r2: "Пропущенные чаты", r3: "Доступность",
-    r4: "Время ответа", r5: "Ответы на отзывы", r6: "Конверсия лида",
-    vh: "Очень высокий", h: "Высокий", mh: "Средне-высокий", m: "Средний",
-    veye: "Голосовой агент", vh2: "Больше ни одного<br><em>пропущенного звонка</em>",
-    vd: "Голосовой агент берёт каждый звонок 24x7 — записи, меню, пожелания, лист ожидания. Живой разговор даже в час пик.",
-    ready: "Готов к тесту", tap: "Позвонить", startcall: "Тестовый звонок",
-    seye: "Агент продаж", sh2: "Лиды в выручку<br><em>на автопилоте</em>",
-    sd: "Лиды с любого канала → продажи и записи круглосуточно. ИИ-сотрудник под ваш бизнес.",
-    leadc: "Конверсия лида",
-    c1: "Ищу чёрный Ford XLT с дистанционным багажником.",
-    c2: "Есть два на площадке. Приедете на тест-драйв сегодня?",
-    c3: "Да. Пришлите цены. Какой самый быстрый шаг?",
-    c4: "Цены отправил. Следующий шаг — 15-минутный онбординг-звонок.",
-    aeye: "Планировщик", ah2: "Больше записей,<br><em>автоматически</em>",
-    ad: "Собирает данные, предлагает слоты, заполняет календарь — круглосуточно.",
-    a1: "Нужно перенести запись. Есть что-то после 16:00 сегодня?",
-    a2: "Перенесу на 16:30. Подтверждаем слот?",
-    a3: "16:30 ок. И адрес в SMS, пожалуйста.",
-    a4: "Готово. Запись на 16:30. Адрес уже на телефоне.",
-    reye: "Репутация", rh2: "5 звёзд<br><em>на автопилоте</em>",
-    rd: "Персональные ответы на отзывы, полный контроль публикации, выше в Google.",
-    revt: "Агент ответов на отзывы", revs: "ИИ-ответы на фидбек",
-    revb: "Мастера очень вежливые, цены нормальные. Легко записаться, приняли в тот же день.",
-    autr: "AI Agent · Auto-reply",
-    reva: "Рады, что вам понравилось, Сара! Спасибо, что выбрали Johnson HVAC.",
-    trust: "Доверие по всей платформе", tb: "Записи", th: "Часов сэкономлено", tr: "Выручка",
-    shipe: "Подберите агентов под бизнес", shiph: "Запускайте ИИ как удобно",
-    tabs: [
-      { title: "Голосовой", hint: "Самый быстрый старт", desc: "Берёт звонки 24x7. Тест в браузере, номер — и в эфир.", link: "Начать", badge: "+38%", stats: [["24/7","Доступен"],["&lt;1м","Сетап"],["0","Пропусков"]], feats: ["Живой разговор по телефону","Веб-тест без номера","Привяжите номер и старт"] },
-      { title: "Продажи", hint: "Лучше на лидах", desc: "Сообщения с любого канала → записи и продажи.", link: "Начать", badge: "Lead", stats: [["48%","Конверсия"],["&lt;1с","Ответ"],["24/7","Активен"]], feats: ["SMS, чат, Messenger","Квалификация и запись","Авто-follow-up"] },
-      { title: "Планировщик", hint: "Больше записей", desc: "Собирает данные, предлагает время, заполняет календарь.", link: "Начать", badge: "+38%", stats: [["+38%","Записи"],["&lt;1м","Слот"],["24/7","Доступен"]], feats: ["Свободные слоты","Данные клиента","Напоминания против no-show","Синх с календарём"] },
-      { title: "Репутация", hint: "Минимум усилий", desc: "Отвечает на отзывы тоном бренда, контроль остаётся у вас.", link: "Deploy now", badge: "Low effort", stats: [["98%","Ответ"],["5★","Тон"],["auto","Режим"]], feats: ["Персональный ответ","Вы решаете что публиковать","Лучше локальное SEO"] }
-    ],
-    deploy: "Deploy now",
-    modh: "Подключите номер / демо",
-    modp: "Звонок, запись, транскрипт и follow-up в одном месте. Для Demo покажем в WhatsApp.",
-    wa: "Хочу демо в WhatsApp",
-    ex: "Свой номер", exs: "Только исходящие. Тест за 60 секунд.",
-    buy: "Купить номер", buys: "Входящие и исходящие"
-  }
+const PHRASES = {
+  en: ["appointment booker","lead qualifier","AI receptionist","sales assistant"],
+  ro: ["programator de întâlniri","calificator de lead-uri","recepționer AI","asistent vânzări"],
+  ru: ["запись на встречи","квалификатор лидов","ИИ-ресепшн","ассистент продаж"]
+};
+const CHIPS = {
+  en: [["📅","Book an appointment"],["❓","What services do you have?"],["◎","Qualify a lead"],["☎","Route after-hours calls"],["🎧","Handle customer support"]],
+  ro: [["📅","Programează o întâlnire"],["❓","Ce servicii aveți?"],["◎","Califică un lead"],["☎","Apeluri după program"],["🎧","Suport clienți"]],
+  ru: [["📅","Записать на встречу"],["❓","Какие услуги?"],["◎","Квалифицировать лид"],["☎","Звонки после часов"],["🎧","Поддержка"]]
+};
+const STATS = {
+  en: [
+    {k:"THE PROBLEM RIGHT NOW", items:[["62%","of your calls go unanswered — every single one is a lost customer"],["67%","of callers who hit voicemail will never call back"],["$1,200","in revenue lost per missed lead, every month"]]},
+    {k:"WHAT CHANGES WITH VOICE AI", items:[["99%","of calls answered — 24/7, zero hold time, zero voicemails"],["88%","of callers prefer AI over being put on hold or hitting voicemail"],["20+","languages your AI speaks — it sounds like your audience"]]},
+    {k:"ALREADY HAPPENING AT SCALE", items:[["200K+","appointments booked automatically — while businesses sleep"],["175K+","hours saved for businesses already using Voice AI"],["< 10 min","to go live — your competitors already have"]]}
+  ],
+  ro: [
+    {k:"PROBLEMA CHIAR ACUM", items:[["62%","din apeluri rămân fără răspuns — fiecare e un client pierdut"],["67%","din cei care cad pe voicemail nu mai sună"],["$1,200","venit pierdut pe lead ratat, în fiecare lună"]]},
+    {k:"CE SCHIMBĂ VOICE AI", items:[["99%","apeluri preluate — 24/7, zero așteptare, zero voicemail"],["88%","preferă AI în loc de hold sau voicemail"],["20+","limbi — sună ca publicul tău"]]},
+    {k:"DEJA SE ÎNTÂMPLĂ LA SCARĂ", items:[["200K+","programări automate — cât dorm afacerile"],["175K+","ore salvate de cine folosește deja Voice AI"],["< 10 min","până e live — competitorii tăi deja au"]]}
+  ],
+  ru: [
+    {k:"ПРОБЛЕМА СЕЙЧАС", items:[["62%","звонков без ответа — каждый звонок = потерянный клиент"],["67%","после автоответчика не перезванивают"],["$1,200","потерянной выручки на пропущенный лид каждый месяц"]]},
+    {k:"ЧТО МЕНЯЕТ VOICE AI", items:[["99%","звонков приняты — 24/7, без ожидания и автоответчика"],["88%","предпочитают ИИ вместо hold или voicemail"],["20+","языков — звучит как ваша аудитория"]]},
+    {k:"УЖЕ НА МАСШТАБЕ", items:[["200K+","записей автоматически — пока бизнес спит"],["175K+","часов сэкономлено у тех, кто уже на Voice AI"],["< 10 мин","до запуска — конкуренты уже внутри"]]}
+  ]
+};
+const TABS = {
+  en: [
+    {t:"Voice Agent", h:"Fastest setup", d:"Never miss another call, book appointments, and have conversations with your leads. No more hold music.", badge:"Fastest setup", stats:[["0%","Missed calls"],["0.8s","Avg answer"],["24/7","Availability"]], feats:["Answers every inbound call automatically","Books appointments in natural conversation","Works during after and rush periods","Transfers to human agents when needed"]},
+    {t:"Sales Agent", h:"Best for lead capture", d:"Turn messages from any channel into sales and bookings.", badge:"Lead capture", stats:[["48%","Conversion"],["<1s","Response"],["24/7","Active"]], feats:["SMS, chat, Messenger","Qualifies and books","Automatic follow-up"]},
+    {t:"Appointment Scheduler", h:"Drives more bookings", d:"Collects details, proposes times, fills the calendar.", badge:"+38%", stats:[["+38%","Bookings"],["<1m","Slot"],["24/7","Availability"]], feats:["Proposes available time slots automatically","Collects customer details before the call","Sends reminders to reduce no-shows","Syncs with your existing calendar"]},
+    {t:"AI Reputation Manager", h:"Low effort win", d:"Replies to reviews in your brand voice. You keep control.", badge:"Low effort", stats:[["98%","Reply rate"],["5★","Tone"],["auto","Mode"]], feats:["Personalized replies","You approve what goes live","Better local SEO"]}
+  ],
+  ro: [
+    {t:"Agent vocal", h:"Cel mai rapid setup", d:"Nu mai rata apeluri, programează și vorbește cu lead-urile. Fără hold music.", badge:"Cel mai rapid", stats:[["0%","Apeluri ratate"],["0.8s","Răspuns"],["24/7","Disponibil"]], feats:["Preia fiecare apel inbound","Programează în conversație naturală","Lucrează după program și în rush","Transferă la om când trebuie"]},
+    {t:"Agent vânzări", h:"Cel mai bun pe lead-uri", d:"Mesaje de pe orice canal → vânzări și programări.", badge:"Lead", stats:[["48%","Conversie"],["<1s","Răspuns"],["24/7","Activ"]], feats:["SMS, chat, Messenger","Califică și programează","Follow-up automat"]},
+    {t:"Programator", h:"Mai multe rezervări", d:"Colectează date, propune ore, umple calendarul.", badge:"+38%", stats:[["+38%","Rezervări"],["<1m","Slot"],["24/7","Disponibil"]], feats:["Propune intervale","Ia datele clientului","Reminder anti no-show","Sync cu calendarul"]},
+    {t:"Reputație", h:"Efort minim", d:"Răspunde recenziilor pe tonul brandului.", badge:"Low effort", stats:[["98%","Răspuns"],["5★","Ton"],["auto","Mod"]], feats:["Răspunsuri personalizate","Tu aprobi publicarea","SEO local mai bun"]}
+  ],
+  ru: [
+    {t:"Голосовой агент", h:"Самый быстрый старт", d:"Ни одного пропущенного звонка. Запись и разговор с лидами.", badge:"Быстрый старт", stats:[["0%","Пропуски"],["0.8с","Ответ"],["24/7","Доступен"]], feats:["Берёт каждый входящий","Записывает живым языком","Работает после часов и в пик","Переводит на человека"]},
+    {t:"Агент продаж", h:"Лучше на лидах", d:"Сообщения с любого канала → продажи и записи.", badge:"Лиды", stats:[["48%","Конверсия"],["<1с","Ответ"],["24/7","Активен"]], feats:["SMS, чат, Messenger","Квалификация и запись","Авто-follow-up"]},
+    {t:"Планировщик", h:"Больше записей", d:"Собирает данные, предлагает слоты, заполняет календарь.", badge:"+38%", stats:[["+38%","Записи"],["<1м","Слот"],["24/7","Доступен"]], feats:["Свободные слоты","Данные клиента","Напоминания","Синх с календарём"]},
+    {t:"Репутация", h:"Минимум усилий", d:"Отвечает на отзывы тоном бренда.", badge:"Low effort", stats:[["98%","Ответ"],["5★","Тон"],["auto","Режим"]], feats:["Персональные ответы","Вы решаете что публиковать","Лучше локальное SEO"]}
+  ]
 };
 
-let lang = "ro";
-let tab = 0;
-let timer;
+let lang="en", si=0, tab=0, talking=false, live=false, tmr, callT=0;
 
-function apply() {
-  const t = I18N[lang];
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"));
-  document.querySelectorAll("[data-i18n]").forEach((el) => { if (t[el.dataset.i18n] && typeof t[el.dataset.i18n] === "string") el.textContent = t[el.dataset.i18n]; });
-  document.querySelectorAll("[data-i18n-html]").forEach((el) => { if (t[el.dataset.i18nHtml]) el.innerHTML = t[el.dataset.i18nHtml]; });
-  document.title = lang === "ru" ? "С чего начать — Voice AI / Conversation AI" : "Primii pași — Voice AI / Conversation AI";
-  renderTabs();
+function typeLoop(){
+  const list = PHRASES[lang];
+  let i=0, s="", dir=1;
+  const el=document.getElementById("phrase");
+  function tick(){
+    const full=list[i];
+    if(dir===1){
+      s=full.slice(0,s.length+1);
+      el.textContent=s;
+      if(s===full){ dir=0; return setTimeout(tick,1400); }
+      return setTimeout(tick,55);
+    }
+    if(dir===0){ dir=-1; return setTimeout(tick,200); }
+    s=s.slice(0,-1);
+    el.textContent=s;
+    if(!s){ dir=1; i=(i+1)%list.length; return setTimeout(tick,280); }
+    return setTimeout(tick,28);
+  }
+  tick();
 }
 
-function renderTabs() {
-  const t = I18N[lang].tabs;
-  const wrap = document.getElementById("tabs");
-  wrap.innerHTML = t.map((x, i) => `
-    <button class="ship-tab${i===tab?" active":""}" type="button" data-tab="${i}">
-      <div class="ship-tab-h"><span class="ship-tab-title">${x.title}</span><span class="ship-tab-hint">${x.hint}</span></div>
-      <p class="ship-tab-desc">${x.desc}</p>
-      <span class="ship-tab-link">${x.link} →</span>
-      <span class="ship-tab-bar"><span class="ship-tab-progress"></span></span>
-    </button>`).join("");
-  wrap.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => { tab = +b.dataset.tab; renderTabs(); }));
-  wrap.querySelectorAll(".ship-tab-link").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); openModal(); }));
-  const c = t[tab];
-  document.getElementById("shipCard").innerHTML = `
-    <div class="ship-card-h">
-      <div class="ship-ico">✦</div>
-      <div style="flex:1"><div class="ship-name">${c.title}</div><div class="ship-status"><b></b> ${c.hint}</div></div>
-      <span class="pill">${c.badge}</span>
-    </div>
-    <div class="ship-stats">${c.stats.map(s => `<div class="ship-stat"><strong>${s[0]}</strong><span>${s[1]}</span></div>`).join("")}</div>
-    <ul class="ship-feats">${c.feats.map(f => `<li>${f}</li>`).join("")}</ul>
-    <div class="ship-card-f"><button class="deploy" type="button">${I18N[lang].deploy}</button></div>`;
-  document.querySelector(".deploy").addEventListener("click", openModal);
-  clearTimeout(timer);
-  timer = setTimeout(() => { tab = (tab + 1) % t.length; renderTabs(); }, 5000);
+function chips(){
+  document.getElementById("chips").innerHTML = CHIPS[lang].map((c,i)=>`<button class="chip" data-c="${i}">${c[0]} ${c[1]}</button>`).join("");
+  document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{
+    document.getElementById("phrase").textContent = PHRASES[lang][+b.dataset.c % PHRASES[lang].length];
+  });
 }
 
-function openModal() { document.getElementById("modal").classList.add("open"); }
-function closeModal() { document.getElementById("modal").classList.remove("open"); }
-document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => { lang = b.dataset.lang; apply(); }));
-document.querySelectorAll("[data-open-modal]").forEach((b) => b.addEventListener("click", openModal));
-document.querySelector("[data-close]").addEventListener("click", closeModal);
-document.getElementById("modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
-apply();
+function renderStats(){
+  const s=STATS[lang][si];
+  document.getElementById("sk").textContent=s.k;
+  document.getElementById("sg").innerHTML=s.items.map(x=>`<div><strong>${x[0]}</strong><p>${x[1]}</p></div>`).join("");
+  document.getElementById("dots").innerHTML=STATS[lang].map((_,i)=>`<b class="${i===si?"on":""}" data-s="${i}"></b>`).join("");
+  document.querySelectorAll("[data-s]").forEach(d=>d.onclick=()=>{si=+d.dataset.s;renderStats();});
+}
+
+function renderTabs(){
+  const t=TABS[lang];
+  document.getElementById("tabs").innerHTML=t.map((x,i)=>`<button class="tab ${i===tab?"on":""}" data-t="${i}"><div class="t">${x.t}<span style="color:#98a2b3;font-weight:400">${x.h}</span></div><div class="d">${x.d}<br><span class="link" data-open>Get started →</span></div></button>`).join("");
+  document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{tab=+b.dataset.t;renderTabs();});
+  const c=t[tab];
+  document.getElementById("scard").innerHTML=`<div class="sch"><div class="ico">☎</div><div><b>${c.t}</b><div style="color:#667085;font-size:13px">${c.h}</div></div><span class="pill2">${c.badge}</span></div>
+    <div class="ss">${c.stats.map(s=>`<div><strong>${s[0]}</strong><span>${s[1]}</span></div>`).join("")}</div>
+    <ul class="fl">${c.feats.map(f=>`<li>${f}</li>`).join("")}</ul>
+    <button class="dep" data-open>Deploy now →</button>`;
+  document.querySelectorAll("[data-open]").forEach(b=>b.onclick=openM);
+}
+
+function globe(){
+  const c=document.getElementById("globe");
+  const ctx=c.getContext("2d");
+  const pts=[];
+  const n=900, g=Math.PI*(3-Math.sqrt(5));
+  for(let i=0;i<n;i++){
+    const y=1-(i/(n-1))*2;
+    const r=Math.sqrt(Math.max(0,1-y*y));
+    const th=g*i;
+    pts.push([Math.cos(th)*r,y,Math.sin(th)*r]);
+  }
+  let a=0.4, b=0.35;
+  function draw(){
+    const w=c.width,h=c.height,cx=w/2,cy=h/2,R=w*0.38;
+    ctx.clearRect(0,0,w,h);
+    a+= talking?0.012:0.004;
+    b+= talking?0.004:0.0015;
+    const ca=Math.cos(a),sa=Math.sin(a),cb=Math.cos(b),sb=Math.sin(b);
+    const proj=pts.map(([x,y,z])=>{
+      let x1=x*ca-z*sa, z1=x*sa+z*ca;
+      let y2=y*cb-z1*sb, z2=y*sb+z1*cb;
+      return {x:x1,y:y2,z:z2};
+    }).sort((p,q)=>p.z-q.z);
+    for(const p of proj){
+      const k=(p.z+1.2)/2.2;
+      const x=cx+p.x*R, y=cy+p.y*R;
+      const s=1.6+k*2.8;
+      ctx.beginPath();
+      ctx.fillStyle=`rgba(122,90,248,${0.18+k*0.75})`;
+      ctx.arc(x,y,s,0,Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function openM(){document.getElementById("modal").classList.add("open")}
+function closeM(){document.getElementById("modal").classList.remove("open")}
+
+document.getElementById("talk").onclick=()=>{
+  talking=!talking;
+  const b=document.getElementById("talk");
+  b.classList.toggle("live",talking);
+  b.textContent=talking?"PATRASCU AI AGENCY — Demo's AI assistant":"Tap to talk";
+};
+
+const pbtn=document.getElementById("pbtn");
+pbtn.onclick=()=>{
+  live=!live;
+  document.getElementById("pdot").classList.toggle("live",live);
+  document.getElementById("pbub").style.display=live?"block":"none";
+  document.getElementById("phint").style.display=live?"none":"block";
+  pbtn.className=live?"end":"call";
+  pbtn.textContent=live?"☎ End test call":"☎ Start test call";
+  clearInterval(tmr); callT=0;
+  if(live){
+    tmr=setInterval(()=>{callT++; const m=String(Math.floor(callT/60)).padStart(1,"0"); const s=String(callT%60).padStart(2,"0"); document.getElementById("pstat").textContent="● 0:"+s.padStart(2,"0");},1000);
+    document.getElementById("pstat").textContent="● 0:00";
+  } else document.getElementById("pstat").textContent="● Ready to test";
+};
+
+document.querySelectorAll("[data-open]").forEach(b=>b.onclick=openM);
+document.querySelector("[data-close]").onclick=closeM;
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeM();};
+document.querySelector("[data-go]").onclick=()=>document.getElementById("mkt").scrollIntoView({behavior:"smooth"});
+document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{
+  lang=b.dataset.lang;
+  document.querySelectorAll("[data-lang]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  chips(); renderStats(); renderTabs();
+});
+setInterval(()=>{si=(si+1)%3;renderStats();},5000);
+setInterval(()=>{tab=(tab+1)%4;renderTabs();},5000);
+chips(); renderStats(); renderTabs(); typeLoop(); globe();
 </script>
 </body>
 </html>
