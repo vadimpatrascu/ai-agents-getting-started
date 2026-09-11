@@ -227,7 +227,7 @@
 
   <section class="sa">
     <div>
-      <h1><span data-i="your">Your</span> <span class="ph" id="phrase"></span><span class="caret"></span><span class="ready" data-i="ready">is ready.</span></h1>
+      <h1><span data-i="your">Your</span> <span class="ph" id="phrase">appointment booker</span><span class="caret"></span><span class="ready" data-i="ready">is ready.</span></h1>
       <p class="sub" data-i="sub">Just describe your business. We'll build the right agents for you.</p>
       <div class="btns">
         <button class="btn-blue" data-open data-i="create">+ Create from scratch</button>
@@ -255,7 +255,7 @@
 
   <section class="mkt" id="mkt">
     <div class="mkt-k" data-i="mk">READY-MADE AGENTS</div>
-    <h2 data-i="mh">Pick your industry. Go live in minutes.</h2>
+    <h2 data-i="mktH">Pick your industry. Go live in minutes.</h2>
     <p data-i="mp">No scripting. No setup calls. Just pick the one that fits, tweak the name, and start taking calls.</p>
     <div class="faces">
       <i style="background:#fde68a"></i><i style="background:#a7f3d0"></i><i style="background:#c4b5fd"></i><i style="background:#fda4af"></i>
@@ -368,8 +368,8 @@
       <h3 data-i="modh">Create from scratch</h3>
       <p data-i="modp">We'll spin up a Voice AI agent for PATRASCU AI AGENCY — Demo. Fastest path: WhatsApp us and we build it live.</p>
       <a class="opt p" href="https://wa.me/37368258248" target="_blank" rel="noopener"><b data-i="wa">Demo on WhatsApp</b><br>0682 58 248</a>
-      <button class="opt" type="button"><b data-i="ex">Use existing number</b><br><span data-i="exs">Outbound only. Test call in 60 seconds.</span></button>
-      <button class="opt" type="button"><b data-i="buy">Buy phone number</b><br><span data-i="buys">Outbound and inbound calls</span></button>
+      <button class="opt" type="button" id="opt-existing"><b data-i="ex">Use existing number</b><br><span data-i="exs">Outbound only. Test call in 60 seconds.</span></button>
+      <button class="opt" type="button" id="opt-buy"><b data-i="buy">Buy phone number</b><br><span data-i="buys">Outbound and inbound calls</span></button>
     </div>
   </div>
 
@@ -540,12 +540,21 @@ document.querySelectorAll("[data-open]").forEach(b=>b.onclick=openM);
 document.querySelector("[data-close]").onclick=closeM;
 document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeM();};
 document.querySelector("[data-go]").onclick=()=>document.getElementById("mkt").scrollIntoView({behavior:"smooth"});
+document.getElementById("opt-existing").onclick=()=>{
+  closeM();
+  const phone=document.querySelector(".phone");
+  if(phone) phone.scrollIntoView({behavior:"smooth",block:"center"});
+  if(!live) pbtn.click();
+};
+document.getElementById("opt-buy").onclick=()=>{
+  window.open("https://wa.me/37368258248","_blank","noopener");
+};
 const COPY={
   en:{
     your:"Your", ready:"is ready.",
     sub:"Just describe your business. We'll build the right agents for you.",prefer:"Prefer to build it yourself?",try:"Try asking:",
     create:"+ Create from scratch", explore:"Explore templates", talk:"Tap to talk",
-    mk:"READY-MADE AGENTS", mh:"Pick your industry. Go live in minutes.", mp:"No scripting. No setup calls. Just pick the one that fits, tweak the name, and start taking calls.", mb:"Browse all marketplace templates →",
+    mk:"READY-MADE AGENTS", mktH:"Pick your industry. Go live in minutes.", mp:"No scripting. No setup calls. Just pick the one that fits, tweak the name, and start taking calls.", mb:"Browse all marketplace templates →",
     ey:"AI-POWERED PLATFORM",
     h2:"Your Business is <em>Losing</em> Customers Every Day",
     h2s:"Right now, you're missing <b>62% of your after-hours calls</b> and ignoring <b>78% of your chat messages</b>. Our AI Agents plug the leaks in your business, responding to every lead instantly and rescuing up to $200k in \"no-show\" revenue, completely on autopilot.",
@@ -591,7 +600,7 @@ const COPY={
     your:"", ready:"e gata.",
     sub:"Descrie business-ul. Îți construim agenții potriviți.",prefer:"Preferi să-l construiești tu?",try:"Încearcă să ceri:",
     create:"+ Creează de la zero", explore:"Explorează template-uri", talk:"Apasă să vorbești",
-    mk:"AGENȚI GATA FĂCUȚI", mh:"Alege industria. Live în câteva minute.", mp:"Fără scripting. Fără apeluri de setup. Alegi template-ul, ajustezi numele și preiei apelurile.", mb:"Vezi toate template-urile →",
+    mk:"AGENȚI GATA FĂCUȚI", mktH:"Alege industria. Live în câteva minute.", mp:"Fără scripting. Fără apeluri de setup. Alegi template-ul, ajustezi numele și preiei apelurile.", mb:"Vezi toate template-urile →",
     ey:"PLATFORMĂ CU AI",
     h2:"Afacerea ta <em>pierde</em> clienți în fiecare zi",
     h2s:"Chiar acum ratezi <b>62% din apelurile de după program</b> și ignori <b>78% din mesajele de chat</b>. Agenții AI astupă scurgerile: răspund la fiecare lead instant și salvează până la 200.000 $ din veniturile pierdute pe no-show, complet pe autopilot.",
@@ -637,7 +646,7 @@ const COPY={
     your:"Ваш", ready:"готов.",
     sub:"Опишите бизнес. Мы соберём нужных агентов.",prefer:"Хотите собрать сами?",try:"Попробуйте спросить:",
     create:"+ Создать с нуля", explore:"Шаблоны", talk:"Нажмите, чтобы говорить",
-    mk:"ГОТОВЫЕ АГЕНТЫ", mh:"Выберите нишу. В эфире за минуты.", mp:"Без скриптов и созвонов. Выберите шаблон, имя — и звонки.", mb:"Все шаблоны маркетплейса →",
+    mk:"ГОТОВЫЕ АГЕНТЫ", mktH:"Выберите нишу. В эфире за минуты.", mp:"Без скриптов и созвонов. Выберите шаблон, имя — и звонки.", mb:"Все шаблоны маркетплейса →",
     ey:"ПЛАТФОРМА С ИИ",
     h2:"Ваш бизнес <em>теряет</em> клиентов каждый день",
     h2s:"Сейчас вы пропускаете <b>62% звонков вне часов</b> и игнорируете <b>78% чатов</b>. ИИ-агенты закрывают дыры: отвечают на каждый лид сразу и спасают до $200k выручки с no-show — на автопилоте.",
