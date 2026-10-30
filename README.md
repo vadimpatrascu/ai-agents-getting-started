@@ -1,2 +1,2 @@
 # ai-agents-getting-started
-Standalone clone of HighLevel AI Agents Getting Started landing
+Standalone AI Agents getting-started landing page.
